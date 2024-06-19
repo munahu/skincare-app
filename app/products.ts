@@ -23,6 +23,7 @@ import EssentialTravelDuoImage from "@/public/images/glossier-essentials-duo-car
 export const products = [
   {
     id: "43781981995251",
+    set: true,
     name: "Balm Dotcom Trio",
     regularPrice: "66 CAD",
     salePrice: "58 CAD",
@@ -42,6 +43,7 @@ export const products = [
   },
   {
     id: "43781981995253",
+    sizes: ["60 mL", "177 mL", "300 mL"],
     name: "Milky Jelly Cleanser",
     regularPrice: "30 CAD",
     overview: "Conditioning face wash",
@@ -51,6 +53,7 @@ export const products = [
   },
   {
     id: "43781981995254",
+    sizes: ["50 mL", "125 mL"],
     name: "After Baume",
     regularPrice: "44 CAD",
     overview: "Moisture barrier recovery cream",
