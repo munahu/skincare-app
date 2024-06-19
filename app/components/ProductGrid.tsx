@@ -1,22 +1,28 @@
 import { products } from "@/app/products";
-import { Product } from "@/app/types/product";
+import { Product, Tag } from "@/app/types/product";
 import Image from "next/image";
 
 interface Props {
-  product: Product;
+  tag?: Tag;
 }
 
-export default function ProductGrid() {
+export default function ProductGrid({ tag }: Props) {
+  const tagProducts =
+    tag && products.filter((product) => product.tags.includes(tag));
   return (
     <ul className="grid grid-cols-2 md:grid-cols-4 gap-x-3 gap-y-8">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+      {tagProducts
+        ? tagProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        : products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
     </ul>
   );
 }
 
-function ProductCard({ product }: Props) {
+function ProductCard({ product }: { product: Product }) {
   const { name, regularPrice, salePrice, overview, image, set, sizes } =
     product;
   return (
@@ -25,8 +31,8 @@ function ProductCard({ product }: Props) {
       <a href="">{name}</a>
       <p className="mt-1 mb-2 opacity-65">{overview}</p>
       <div className="flex">
-        <p className="mr-2">{regularPrice}</p>
-        {salePrice && <p className="line-through opacity-55">{salePrice}</p>}
+        <p className="mr-2">${regularPrice}</p>
+        {salePrice && <p className="line-through opacity-55">${salePrice}</p>}
       </div>
       {sizes && (
         <ul className="flex flex-wrap max-w-56 mt-4 -mb-5">

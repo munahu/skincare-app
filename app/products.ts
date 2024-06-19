@@ -19,11 +19,13 @@ import UniversalProRetinolImage from "@/public/images/glossier-skincare-pro-reti
 import MilkyOilImage from "@/public/images/glossier-skincare-milky-oil-carousel-01.avif";
 import PrimingMoisturizerBalanceImage from "@/public/images/glossier-skincare-pmb-carousel-01.avif";
 import EssentialTravelDuoImage from "@/public/images/glossier-essentials-duo-carousel-01.avif";
+import { Product, Tag } from "./types/product";
 
-export const products = [
+export const products: Product[] = [
   {
     id: "43781981995251",
     set: true,
+    tags: ["balms", "sets"],
     name: "Balm Dotcom Trio",
     regularPrice: "66 CAD",
     salePrice: "58 CAD",
@@ -35,6 +37,7 @@ export const products = [
   {
     id: "43781981995252",
     name: "Balm Dotcom",
+    tags: ["balms"],
     regularPrice: "22 CAD",
     overview: "Original formula",
     image: BalmDotcomImage,
@@ -44,6 +47,7 @@ export const products = [
   {
     id: "43781981995253",
     sizes: ["60 mL", "177 mL", "300 mL"],
+    tags: ["cleansers"],
     name: "Milky Jelly Cleanser",
     regularPrice: "30 CAD",
     overview: "Conditioning face wash",
@@ -54,6 +58,7 @@ export const products = [
   {
     id: "43781981995254",
     sizes: ["50 mL", "125 mL"],
+    tags: ["moisturizers"],
     name: "After Baume",
     regularPrice: "44 CAD",
     overview: "Moisture barrier recovery cream",
@@ -63,6 +68,7 @@ export const products = [
   },
   {
     id: "43781981995255",
+    tags: ["treatments"],
     name: "Futuredew",
     regularPrice: "41 CAD",
     overview: "Oil serum hybrid",
@@ -72,6 +78,7 @@ export const products = [
   },
   {
     id: "43781981995256",
+    tags: ["treatments"],
     name: "Full Orbit",
     regularPrice: "38 CAD",
     overview: "Hydrating, brightening, smoothing eye cream",
@@ -81,6 +88,7 @@ export const products = [
   },
   {
     id: "43781981995257",
+    tags: ["moisturizers"],
     name: "Priming Moisturizer",
     regularPrice: "35 CAD",
     overview: "Buildable hydrating creme",
@@ -90,6 +98,7 @@ export const products = [
   },
   {
     id: "43781981995258",
+    tags: ["moisturizers"],
     name: "Priming Moisturizer Rich",
     regularPrice: "47 CAD",
     overview: "Luxurious face cream",
@@ -99,6 +108,7 @@ export const products = [
   },
   {
     id: "43781981995259",
+    tags: ["treatments"],
     name: "Solution",
     regularPrice: "41 CAD",
     overview: "Exfoliating skin perfector",
@@ -108,6 +118,7 @@ export const products = [
   },
   {
     id: "43781981995250",
+    tags: ["cleansers"],
     name: "Milky Jelly Cleansing Bar",
     regularPrice: "24 CAD",
     overview: "Conditioning face + body wash",
@@ -117,6 +128,7 @@ export const products = [
   },
   {
     id: "43781981995211",
+    tags: ["treatments"],
     name: "Mini Universal Pro-Retinol",
     regularPrice: "20 CAD",
     overview: "Mini nightly renewing complex",
@@ -126,6 +138,7 @@ export const products = [
   },
   {
     id: "43781981995212",
+    tags: ["moisturizers"],
     name: "Mini After Baume",
     regularPrice: "14 CAD",
     overview: "Mini moisture barrier recovery cream",
@@ -135,6 +148,7 @@ export const products = [
   },
   {
     id: "43781981995213",
+    tags: ["cleansers"],
     name: "Mini Milky Jelly Cleanser",
     regularPrice: "7 CAD",
     overview: "Mini conditioning face wash",
@@ -144,6 +158,7 @@ export const products = [
   },
   {
     id: "43781981995214",
+    tags: ["treatments"],
     name: "Super Pure",
     regularPrice: "46 CAD",
     overview: "Niacinamide + zinc serum",
@@ -153,6 +168,7 @@ export const products = [
   },
   {
     id: "43781981995215",
+    tags: ["treatments"],
     name: "Super Bounce",
     regularPrice: "46 CAD",
     overview: "Hyaluronic acid + vitamin b5 serum",
@@ -162,6 +178,7 @@ export const products = [
   },
   {
     id: "43781981995216",
+    tags: ["treatments"],
     name: "Super Glow",
     regularPrice: "46 CAD",
     overview: "Vitamin c + magnesium serum",
@@ -171,6 +188,7 @@ export const products = [
   },
   {
     id: "43781981995217",
+    tags: ["cleansers"],
     name: "Cleanser Concentrate",
     regularPrice: "32 CAD",
     overview: "Clarifying face wash",
@@ -180,6 +198,7 @@ export const products = [
   },
   {
     id: "43781981995218",
+    tags: ["treatments"],
     name: "Universal Pro-Retinol",
     regularPrice: "54 CAD",
     overview: "Nightly renewing complex",
@@ -189,6 +208,7 @@ export const products = [
   },
   {
     id: "43781981995219",
+    tags: ["cleansers"],
     name: "Milky Oil",
     regularPrice: "25 CAD",
     overview: "Waterproof makeup remover",
@@ -198,6 +218,7 @@ export const products = [
   },
   {
     id: "43781981995220",
+    tags: ["moisturizers"],
     name: "Priming Moisturizer Balance",
     regularPrice: "35 CAD",
     overview: "Oil-control gel cream",
@@ -207,6 +228,7 @@ export const products = [
   },
   {
     id: "43781981995221",
+    tags: ["sets"],
     name: "Essential Travel Duo",
     regularPrice: "21 CAD",
     salePrice: "18 CAD",
@@ -216,3 +238,6 @@ export const products = [
       "Pack light this holiday season with a cleansing-moisturizing duo featuring Milky Jelly Cleanser, our nourishing gel-cream cleanser and After Baume, our daily moisture recovery cream for soothed, hydrated skin. Both in a perfectly-compact mini size for effortless travel free of bag fees.",
   },
 ];
+
+const productTags = products.flatMap(({ tags }) => tags);
+export const tags: Tag[] = [...new Set(productTags)];
