@@ -10,7 +10,7 @@ export default function ProductGrid({ tag }: Props) {
   const tagProducts =
     tag && products.filter((product) => product.tags.includes(tag));
   return (
-    <ul className="grid grid-cols-2 md:grid-cols-4 gap-x-3 gap-y-8">
+    <ul className="grid grid-cols-2 md:grid-cols-4 gap-x-3 gap-y-8 mt-14">
       {tagProducts
         ? tagProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
@@ -26,7 +26,7 @@ function ProductCard({ product }: { product: Product }) {
   const { name, regularPrice, salePrice, overview, image, set, sizes } =
     product;
   return (
-    <li className="relative text-xs sm:text-sm">
+    <li className="relative text-xs sm:text-sm -z-10">
       {image && <Image alt={name} src={image} className="mb-3" />}
       <a href="">{name}</a>
       <p className="mt-1 mb-2 opacity-65">{overview}</p>

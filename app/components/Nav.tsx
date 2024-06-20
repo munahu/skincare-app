@@ -13,9 +13,10 @@ export default function Nav() {
   const isNoTagSelected = pathname === "/";
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
-    <nav>
+    <nav className="fixed inset-x-0 z-50 bg-white">
       <ul className="flex justify-end lg:justify-center items-center h-8 pl-4 border-b border-neutral-200 tracking-tight text-xs uppercase relative">
         <span className="absolute left-5 font-semibold italic text-lg capitalize">
           Skincare
@@ -64,13 +65,24 @@ export default function Nav() {
               >
                 Menu
               </li>
-              <li className="mr-4 cursor-pointer hover:underline">Search</li>
+              <li
+                onClick={() => setIsSearchOpen(true)}
+                className="mr-4 cursor-pointer hover:underline"
+              >
+                Search
+              </li>
               <li className="mr-4 cursor-pointer hover:underline">Bag</li>
             </>
           )}
         </ul>
       </ul>
       {isMenuOpen && <Menu setIsMenuOpen={setIsMenuOpen} />}
+      {isSearchOpen && (
+        <>
+          <Search setIsSearchOpen={setIsSearchOpen} />
+          <div className="fixed w-full h-screen bg-neutral-800 opacity-80 z-50" />
+        </>
+      )}
     </nav>
   );
 }
@@ -127,5 +139,64 @@ function Menu({
         </li>
       ))}
     </ul>
+  );
+}
+
+function Search({
+  setIsSearchOpen,
+}: {
+  setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
+}) {
+  const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  return (
+    <form className="px-4 mt-3">
+      <div className="bg-neutral-100 my-4 flex flex-col h-14 pl-3 relative">
+        <svg
+          onClick={() => setIsSearchOpen(false)}
+          xmlns="http://www.w3.org/2000/svg"
+          fill="white"
+          viewBox="0 0 24 24"
+          strokeWidth={1}
+          stroke="currentColor"
+          className="size-6 absolute -top-3 -right-2 cursor-pointer"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+        <label
+          htmlFor="search"
+          className="absolute top-3 text-[10px] opacity-50 tracking-tight"
+        >
+          Search
+        </label>
+        <input
+          ref={inputRef}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="h-full outline-none pt-6 text-sm bg-neutral-100 placeholder:pl-2 placeholder:text-[11px]"
+          id="search"
+          type="search"
+          placeholder="Search for a keyword"
+          autoComplete="off"
+        />
+        <span
+          onClick={() => setQuery("")}
+          className="absolute right-3 bottom-2 text-sm opacity-40 cursor-pointer"
+        >
+          Clear
+        </span>
+      </div>
+    </form>
   );
 }
