@@ -4,7 +4,7 @@ import Link from "next/link";
 import { tags } from "../products";
 import { usePathname } from "next/navigation";
 import { Tag } from "../types/product";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 export default function Nav() {
   const pathname = usePathname();
@@ -47,7 +47,7 @@ export default function Nav() {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="size-6 mr-5 cursor-pointer"
+                className="size-5 mr-5 cursor-pointer"
               >
                 <path
                   strokeLinecap="round"
@@ -70,14 +70,47 @@ export default function Nav() {
           )}
         </ul>
       </ul>
-      {isMenuOpen && <Menu />}
+      {isMenuOpen && <Menu setIsMenuOpen={setIsMenuOpen} />}
     </nav>
   );
 }
 
-function Menu() {
+function Menu({
+  setIsMenuOpen,
+}: {
+  setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
+}) {
+  const menuRef = useRef<HTMLUListElement | null>(null);
+
+  useEffect(() => {
+    const menuRefCurrent = menuRef.current;
+
+    const handleMouseLeave = () => {
+      const timeoutId = window.setTimeout(() => {
+        setIsMenuOpen(false);
+      }, 200);
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    };
+
+    if (menuRefCurrent) {
+      menuRefCurrent.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      if (menuRefCurrent) {
+        menuRefCurrent.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, [setIsMenuOpen]);
+
   return (
-    <ul className="pt-3 block lg:hidden text-sm pl-8 border-b border-neutral-200">
+    <ul
+      ref={menuRef}
+      className="pt-3 block lg:hidden text-sm pl-8 border-b border-neutral-200"
+    >
       <li className="mb-3">
         <Link href="/" className="">
           All skincare
