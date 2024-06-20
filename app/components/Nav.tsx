@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { tags } from "../products";
+import { products, tags } from "../products";
 import { usePathname } from "next/navigation";
-import { Tag } from "../types/product";
+import { Product, Tag } from "../types/product";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { ProductCard } from "./ProductGrid";
 
 export default function Nav() {
   const pathname = usePathname();
@@ -148,6 +149,7 @@ function Search({
   setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const [query, setQuery] = useState("");
+  const [results, setResults] = useState<Product[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -156,47 +158,78 @@ function Search({
     }
   }, []);
 
+  const handleChange = (query: string) => {
+    setQuery(query);
+    if (query) {
+      const results = products.filter(
+        (product) =>
+          product.name.toLowerCase().includes(query.toLowerCase()) ||
+          product.overview.toLowerCase().includes(query.toLowerCase())
+      );
+      setResults(results.splice(0, 5));
+    } else {
+      setResults([]);
+    }
+  };
+
   return (
-    <form className="px-4 mt-3">
-      <div className="bg-neutral-100 my-4 flex flex-col h-14 pl-3 relative">
-        <svg
-          onClick={() => setIsSearchOpen(false)}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="white"
-          viewBox="0 0 24 24"
-          strokeWidth={1}
-          stroke="currentColor"
-          className="size-6 absolute -top-3 -right-2 cursor-pointer"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+    <div className="h-dvh lg:h-fit overflow-y-scroll pb-10">
+      <form className="px-4 mt-3">
+        <div className="bg-neutral-100 my-4 flex flex-col h-14 pl-3 relative">
+          <svg
+            onClick={() => setIsSearchOpen(false)}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="white"
+            viewBox="0 0 24 24"
+            strokeWidth={1}
+            stroke="currentColor"
+            className="size-6 absolute -top-3 -right-2 cursor-pointer"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+          </svg>
+          <label
+            htmlFor="search"
+            className="absolute top-3 text-[10px] opacity-50 tracking-tight"
+          >
+            Search
+          </label>
+          <input
+            ref={inputRef}
+            value={query}
+            onChange={(e) => handleChange(e.target.value)}
+            className="h-full outline-none pt-6 text-sm bg-neutral-100 placeholder:pl-2 placeholder:text-[11px]"
+            id="search"
+            type="search"
+            placeholder="Search for a keyword"
+            autoComplete="off"
           />
-        </svg>
-        <label
-          htmlFor="search"
-          className="absolute top-3 text-[10px] opacity-50 tracking-tight"
-        >
-          Search
-        </label>
-        <input
-          ref={inputRef}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="h-full outline-none pt-6 text-sm bg-neutral-100 placeholder:pl-2 placeholder:text-[11px]"
-          id="search"
-          type="search"
-          placeholder="Search for a keyword"
-          autoComplete="off"
-        />
-        <span
-          onClick={() => setQuery("")}
-          className="absolute right-3 bottom-2 text-sm opacity-40 cursor-pointer"
-        >
-          Clear
-        </span>
-      </div>
-    </form>
+          <span
+            onClick={() => {
+              setQuery("");
+              setResults([]);
+            }}
+            className="absolute right-3 bottom-2 text-sm opacity-40 cursor-pointer"
+          >
+            Clear
+          </span>
+        </div>
+      </form>
+      {results.length > 0 && (
+        <ul className="grid grid-cols-2 lg:grid-cols-5 gap-x-3 gap-y-5 px-4 pb-8">
+          {results.map((result) => (
+            <ProductCard key={result.id} product={result} />
+          ))}
+        </ul>
+      )}
+      {query.length > 0 && results.length === 0 && (
+        <p className="px-6 text-sm opacity-55">
+          Your search for &quot;{query}&quot; didn&apos;t return any results :(
+        </p>
+      )}
+    </div>
   );
 }
