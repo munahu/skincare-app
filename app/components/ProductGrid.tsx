@@ -53,7 +53,7 @@ function ProductCard({ product }: { product: Product }) {
         </ul>
       )}
       <div className="mt-16">
-        <button className="absolute bottom-0 border border-r-black border-b-black border-t-0  border-l-0 w-full h-9">
+        <button className="absolute bottom-0 border-r border-b border-black w-full h-9">
           {set ? "Choose set" : "Add to bag"}
         </button>
       </div>
