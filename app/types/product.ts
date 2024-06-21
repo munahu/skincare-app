@@ -13,9 +13,13 @@ export interface Product {
   sizes?: string[];
   tags: Tag[];
   name: string;
-  regularPrice: string;
-  salePrice?: string;
+  regularPrice: number;
+  salePrice?: number;
   overview: string;
   description: string;
   image: StaticImageData;
+}
+
+export interface CartItem extends Product {
+  quantity: number;
 }

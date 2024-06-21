@@ -4,8 +4,17 @@ import Link from "next/link";
 import { products, tags } from "../products";
 import { usePathname } from "next/navigation";
 import { Product, Tag } from "../types/product";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { ProductCard } from "./ProductGrid";
+import { CartDisplayContext } from "./Layout";
+import Cart, { CartCount } from "./Cart";
 
 export default function Nav() {
   const pathname = usePathname();
@@ -16,9 +25,11 @@ export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
+  const { isCartOpen, setIsCartOpen } = useContext(CartDisplayContext) || {};
+
   return (
-    <nav className="fixed inset-x-0 z-50 bg-white">
-      <ul className="flex justify-end lg:justify-center items-center h-8 pl-4 border-b border-neutral-200 tracking-tight text-xs uppercase relative">
+    <nav className="fixed inset-x-0 z-40 bg-white">
+      <ul className="flex justify-end lg:justify-center items-center h-10 pl-4 border-b border-neutral-200 tracking-tight text-xs uppercase relative">
         <span className="absolute left-5 font-semibold italic text-lg capitalize">
           Skincare
         </span>
@@ -72,7 +83,12 @@ export default function Nav() {
               >
                 Search
               </li>
-              <li className="mr-4 cursor-pointer hover:underline">Bag</li>
+              <li
+                onClick={() => setIsCartOpen?.(true)}
+                className="cursor-pointer hover:underline"
+              >
+                <CartCount />
+              </li>
             </>
           )}
         </ul>
@@ -81,9 +97,13 @@ export default function Nav() {
       {isSearchOpen && (
         <>
           <Search setIsSearchOpen={setIsSearchOpen} />
-          <div className="fixed w-full h-screen bg-neutral-800 opacity-80 z-50" />
+          <div
+            onClick={() => setIsSearchOpen(false)}
+            className="fixed w-full h-screen bg-neutral-800 opacity-80 z-40"
+          />
         </>
       )}
+      {isCartOpen && setIsCartOpen && <Cart setIsCartOpen={setIsCartOpen} />}
     </nav>
   );
 }

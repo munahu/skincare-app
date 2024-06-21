@@ -27,8 +27,8 @@ export const products: Product[] = [
     set: true,
     tags: ["balms", "sets"],
     name: "Balm Dotcom Trio",
-    regularPrice: "66 CAD",
-    salePrice: "58 CAD",
+    regularPrice: 66,
+    salePrice: 58,
     image: BalmDotcomTrioImage,
     overview: "Original formula",
     description:
@@ -38,7 +38,7 @@ export const products: Product[] = [
     id: "43781981995252",
     name: "Balm Dotcom",
     tags: ["balms"],
-    regularPrice: "22 CAD",
+    regularPrice: 22,
     overview: "Original formula",
     image: BalmDotcomImage,
     description:
@@ -49,7 +49,7 @@ export const products: Product[] = [
     sizes: ["60 mL", "177 mL", "300 mL"],
     tags: ["cleansers"],
     name: "Milky Jelly Cleanser",
-    regularPrice: "30 CAD",
+    regularPrice: 30,
     overview: "Conditioning face wash",
     image: MilkyJellyCleanserImage,
     description:
@@ -60,7 +60,7 @@ export const products: Product[] = [
     sizes: ["50 mL", "125 mL"],
     tags: ["moisturizers"],
     name: "After Baume",
-    regularPrice: "44 CAD",
+    regularPrice: 44,
     overview: "Moisture barrier recovery cream",
     image: AfterBaumeImage,
     description:
@@ -70,7 +70,7 @@ export const products: Product[] = [
     id: "43781981995255",
     tags: ["treatments"],
     name: "Futuredew",
-    regularPrice: "41 CAD",
+    regularPrice: 41,
     overview: "Oil serum hybrid",
     image: FuturedewImage,
     description:
@@ -80,7 +80,7 @@ export const products: Product[] = [
     id: "43781981995256",
     tags: ["treatments"],
     name: "Full Orbit",
-    regularPrice: "38 CAD",
+    regularPrice: 38,
     overview: "Hydrating, brightening, smoothing eye cream",
     image: FullOrbitImage,
     description:
@@ -90,7 +90,7 @@ export const products: Product[] = [
     id: "43781981995257",
     tags: ["moisturizers"],
     name: "Priming Moisturizer",
-    regularPrice: "35 CAD",
+    regularPrice: 35,
     overview: "Buildable hydrating creme",
     image: PrimingMoisturizerImage,
     description:
@@ -100,7 +100,7 @@ export const products: Product[] = [
     id: "43781981995258",
     tags: ["moisturizers"],
     name: "Priming Moisturizer Rich",
-    regularPrice: "47 CAD",
+    regularPrice: 47,
     overview: "Luxurious face cream",
     image: PrimingMoisturizerRichImage,
     description:
@@ -110,7 +110,7 @@ export const products: Product[] = [
     id: "43781981995259",
     tags: ["treatments"],
     name: "Solution",
-    regularPrice: "41 CAD",
+    regularPrice: 41,
     overview: "Exfoliating skin perfector",
     image: SolutionImage,
     description:
@@ -120,7 +120,7 @@ export const products: Product[] = [
     id: "43781981995250",
     tags: ["cleansers"],
     name: "Milky Jelly Cleansing Bar",
-    regularPrice: "24 CAD",
+    regularPrice: 24,
     overview: "Conditioning face + body wash",
     image: MilkyJellyCleansingBarImage,
     description:
@@ -130,7 +130,7 @@ export const products: Product[] = [
     id: "43781981995211",
     tags: ["treatments"],
     name: "Mini Universal Pro-Retinol",
-    regularPrice: "20 CAD",
+    regularPrice: 20,
     overview: "Mini nightly renewing complex",
     image: MiniUniversalProRetinolImage,
     description:
@@ -140,7 +140,7 @@ export const products: Product[] = [
     id: "43781981995212",
     tags: ["moisturizers"],
     name: "Mini After Baume",
-    regularPrice: "14 CAD",
+    regularPrice: 14,
     overview: "Mini moisture barrier recovery cream",
     image: MiniAfterBaumeImage,
     description:
@@ -150,7 +150,7 @@ export const products: Product[] = [
     id: "43781981995213",
     tags: ["cleansers"],
     name: "Mini Milky Jelly Cleanser",
-    regularPrice: "7 CAD",
+    regularPrice: 7,
     overview: "Mini conditioning face wash",
     image: MiniMilkyJellyCleanserImage,
     description:
@@ -160,7 +160,7 @@ export const products: Product[] = [
     id: "43781981995214",
     tags: ["treatments"],
     name: "Super Pure",
-    regularPrice: "46 CAD",
+    regularPrice: 46,
     overview: "Niacinamide + zinc serum",
     image: SuperPureImage,
     description:
@@ -170,7 +170,7 @@ export const products: Product[] = [
     id: "43781981995215",
     tags: ["treatments"],
     name: "Super Bounce",
-    regularPrice: "46 CAD",
+    regularPrice: 46,
     overview: "Hyaluronic acid + vitamin b5 serum",
     image: SuperBounceImage,
     description:
@@ -180,7 +180,7 @@ export const products: Product[] = [
     id: "43781981995216",
     tags: ["treatments"],
     name: "Super Glow",
-    regularPrice: "46 CAD",
+    regularPrice: 46,
     overview: "Vitamin c + magnesium serum",
     image: SuperGlowImage,
     description:
@@ -190,7 +190,7 @@ export const products: Product[] = [
     id: "43781981995217",
     tags: ["cleansers"],
     name: "Cleanser Concentrate",
-    regularPrice: "32 CAD",
+    regularPrice: 32,
     overview: "Clarifying face wash",
     image: CleanserConcentrateImage,
     description:
@@ -200,7 +200,7 @@ export const products: Product[] = [
     id: "43781981995218",
     tags: ["treatments"],
     name: "Universal Pro-Retinol",
-    regularPrice: "54 CAD",
+    regularPrice: 54,
     overview: "Nightly renewing complex",
     image: UniversalProRetinolImage,
     description:
@@ -210,7 +210,7 @@ export const products: Product[] = [
     id: "43781981995219",
     tags: ["cleansers"],
     name: "Milky Oil",
-    regularPrice: "25 CAD",
+    regularPrice: 25,
     overview: "Waterproof makeup remover",
     image: MilkyOilImage,
     description:
@@ -220,7 +220,7 @@ export const products: Product[] = [
     id: "43781981995220",
     tags: ["moisturizers"],
     name: "Priming Moisturizer Balance",
-    regularPrice: "35 CAD",
+    regularPrice: 35,
     overview: "Oil-control gel cream",
     image: PrimingMoisturizerBalanceImage,
     description:
@@ -230,8 +230,8 @@ export const products: Product[] = [
     id: "43781981995221",
     tags: ["sets"],
     name: "Essential Travel Duo",
-    regularPrice: "21 CAD",
-    salePrice: "18 CAD",
+    regularPrice: 21,
+    salePrice: 18,
     overview: "Mini After Baume + Mini Milky Jelly Cleanser",
     image: EssentialTravelDuoImage,
     description:

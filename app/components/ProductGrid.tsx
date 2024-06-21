@@ -1,24 +1,35 @@
+"use client";
+
 import { products } from "@/app/products";
 import { Product, Tag } from "@/app/types/product";
 import Image from "next/image";
+import { useContext } from "react";
+import { CartDisplayContext, CartItemsContext } from "./Layout";
 
 interface Props {
   tag?: Tag;
 }
 
 export default function ProductGrid({ tag }: Props) {
-  const tagProducts =
-    tag && products.filter((product) => product.tags.includes(tag));
+  const productsToDisplay = tag
+    ? products.filter((product) => product.tags.includes(tag))
+    : products;
+
   return (
-    <ul className="grid grid-cols-2 md:grid-cols-4 gap-x-3 gap-y-8 mt-14">
-      {tagProducts
-        ? tagProducts.map((product) => (
-            <ProductCard key={product.id} product={product} isInProductGrid />
-          ))
-        : products.map((product) => (
+    <>
+      <div className="pt-8">
+        <ul className="mb-5 px-2 text-sm flex justify-between opacity-55">
+          <li>
+            <span>{productsToDisplay.length} items</span>
+          </li>
+        </ul>
+        <ul className="grid grid-cols-2 md:grid-cols-4 gap-x-3 gap-y-8">
+          {productsToDisplay.map((product) => (
             <ProductCard key={product.id} product={product} isInProductGrid />
           ))}
-    </ul>
+        </ul>
+      </div>
+    </>
   );
 }
 
@@ -31,8 +42,26 @@ export function ProductCard({
 }) {
   const { name, regularPrice, salePrice, overview, image, set, sizes } =
     product;
+  const { cartItems, updateCartItems } = useContext(CartItemsContext) || {};
+  const { setIsCartOpen } = useContext(CartDisplayContext) || {};
+
+  const handleAddClick = () => {
+    if (cartItems) {
+      const duplicateProductIndex = cartItems.findIndex(
+        (item) => item.id === product.id
+      );
+      if (duplicateProductIndex === -1) {
+        updateCartItems?.([...cartItems, { ...product, quantity: 1 }]);
+      } else {
+        cartItems[duplicateProductIndex].quantity += 1;
+        updateCartItems?.(cartItems);
+      }
+      setIsCartOpen?.(true);
+    }
+  };
+
   return (
-    <li className="relative text-xs sm:text-sm -z-10">
+    <li className="relative text-xs sm:text-sm">
       {image && <Image alt={name} src={image} className="mb-3" />}
       <a href="">{name}</a>
       <p className="mt-1 mb-2 opacity-65">{overview}</p>
@@ -61,7 +90,10 @@ export function ProductCard({
             </ul>
           )}
           <div className="mt-16">
-            <button className="absolute bottom-0 border-r border-b border-black w-full h-9">
+            <button
+              onClick={() => handleAddClick()}
+              className="absolute bottom-0 border-r border-b border-black w-full h-9 cursor-pointer"
+            >
               {set ? "Choose set" : "Add to bag"}
             </button>
           </div>
