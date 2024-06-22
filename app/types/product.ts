@@ -9,15 +9,15 @@ export type Tag =
 
 export interface Product {
   id: string;
-  set?: boolean;
   sizes?: string[];
   tags: Tag[];
   name: string;
   regularPrice: number;
   salePrice?: number;
   overview: string;
+  tagline: string;
   description: string;
-  image: StaticImageData;
+  images: StaticImageData[];
 }
 
 export interface CartItem extends Product {

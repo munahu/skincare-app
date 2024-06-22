@@ -3,8 +3,8 @@
 import { products } from "@/app/products";
 import { Product, Tag } from "@/app/types/product";
 import Image from "next/image";
-import { useContext } from "react";
-import { CartDisplayContext, CartItemsContext } from "./Layout";
+import Link from "next/link";
+import AddToCartButton from "./AddToCartButton";
 
 interface Props {
   tag?: Tag;
@@ -40,29 +40,16 @@ export function ProductCard({
   product: Product;
   isInProductGrid?: boolean;
 }) {
-  const { name, regularPrice, salePrice, overview, image, set, sizes } =
+  const { id, name, regularPrice, salePrice, overview, images, sizes } =
     product;
-  const { cartItems, updateCartItems } = useContext(CartItemsContext) || {};
-  const { setIsCartOpen } = useContext(CartDisplayContext) || {};
-
-  const handleAddClick = () => {
-    if (cartItems) {
-      const duplicateProductIndex = cartItems.findIndex(
-        (item) => item.id === product.id
-      );
-      if (duplicateProductIndex === -1) {
-        updateCartItems?.([...cartItems, { ...product, quantity: 1 }]);
-      } else {
-        cartItems[duplicateProductIndex].quantity += 1;
-        updateCartItems?.(cartItems);
-      }
-      setIsCartOpen?.(true);
-    }
-  };
 
   return (
     <li className="relative text-xs sm:text-sm">
-      {image && <Image alt={name} src={image} className="mb-3" />}
+      {images && (
+        <Link href={`/products/${id}`}>
+          <Image alt={name} src={images[0]} className="mb-3" />
+        </Link>
+      )}
       <a href="">{name}</a>
       <p className="mt-1 mb-2 opacity-65">{overview}</p>
       <div className="flex">
@@ -90,12 +77,12 @@ export function ProductCard({
             </ul>
           )}
           <div className="mt-16">
-            <button
-              onClick={() => handleAddClick()}
-              className="absolute bottom-0 border-r border-b border-black w-full h-9 cursor-pointer"
+            <AddToCartButton
+              classname="absolute bottom-0 border-r border-b border-black w-full h-9 cursor-pointer"
+              product={product}
             >
-              {set ? "Choose set" : "Add to bag"}
-            </button>
+              <>Add to bag</>
+            </AddToCartButton>
           </div>
         </>
       )}

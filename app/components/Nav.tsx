@@ -30,9 +30,12 @@ export default function Nav() {
   return (
     <nav className="fixed inset-x-0 z-40 bg-white">
       <ul className="flex justify-end lg:justify-center items-center h-10 pl-4 border-b border-neutral-200 tracking-tight text-xs uppercase relative">
-        <span className="absolute left-5 font-semibold italic text-lg capitalize">
-          Skincare
-        </span>
+        <Link
+          href="/"
+          className="absolute left-5 font-semibold italic text-lg capitalize cursor-pointer"
+        >
+          <span>Skincare</span>
+        </Link>
         <ul className="hidden lg:flex justify-center items-center">
           <li>
             <Link href="/" className={`mr-5 ${isNoTagSelected && `underline`}`}>

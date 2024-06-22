@@ -135,10 +135,10 @@ function CartItem({
   handleIncreaseQuantityClick: (productId: string) => void;
   handleDecreaseQuantityClick: (productId: string) => void;
 }) {
-  const { id, name, image, regularPrice, salePrice, quantity } = cartItem;
+  const { id, name, images, regularPrice, salePrice, quantity } = cartItem;
   return (
     <li className="border-t last:border-b border-black w-full flex py-4 px-4">
-      <Image alt={name} src={image} className="max-w-20 mr-2 sm:mr-3" />
+      <Image alt={name} src={images[0]} className="max-w-20 mr-2 sm:mr-3" />
       <div className="flex flex-col w-full">
         <div className="flex justify-between h-full">
           <div className="flex mr-4">
