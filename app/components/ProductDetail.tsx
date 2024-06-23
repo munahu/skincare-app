@@ -1,6 +1,8 @@
 import Image from "next/image";
-import { Product } from "@/app/types/product";
+import { Product, Size } from "@/app/types/product";
 import AddToCartButton from "./AddToCartButton";
+import { useState } from "react";
+import ProductSizes from "./ProductSizes";
 
 export default function ProductDetail({ product }: { product: Product }) {
   const {
@@ -14,6 +16,8 @@ export default function ProductDetail({ product }: { product: Product }) {
     images,
   } = product;
 
+  const [selectedSize, setSelectedSize] = useState(sizes?.[0]);
+
   return (
     <>
       <div className="hidden md:flex mt-20 mb-8">
@@ -21,23 +25,12 @@ export default function ProductDetail({ product }: { product: Product }) {
           <div className="max-w-[400px] lg:max-w-[450px] xl:max-w-[400px]">
             <h2 className="text-3xl font-semibold mb-2">{name}</h2>
             <p className="text-sm font-light">{overview}</p>
-            {sizes && (
-              <ul className="flex text-sm mt-5">
-                {sizes.map((size, index) => (
-                  <li
-                    key={index}
-                    className={`${
-                      sizes.length === 1
-                        ? `w-24 sm:w-20`
-                        : sizes.length === 2
-                        ? `first:w-24 sm:first:w-20 last:w-28 sm:last:w-24`
-                        : `first:w-24 sm:first:w-20 w-28 sm:w-24 last:w-32 sm:last:w-28`
-                    } relative first:border border-black py-2 text-center bg-neutral-100 italic cursor-pointer`}
-                  >
-                    {size}
-                  </li>
-                ))}
-              </ul>
+            {sizes && selectedSize && setSelectedSize && (
+              <ProductSizes
+                sizes={sizes}
+                selectedSize={selectedSize}
+                setSelectedSize={setSelectedSize}
+              />
             )}
             <div className="flex flex-col">
               {salePrice && (
@@ -48,8 +41,9 @@ export default function ProductDetail({ product }: { product: Product }) {
               <AddToCartButton
                 classname={`${
                   salePrice && `order-last`
-                } mt-8 mb-6 w-full max-w-fit py-2 px-3 bg-neutral-100 flex justify-between border-b border-r border-black text-sm`}
+                } mt-8 mb-6 w-full max-w-fit py-2 px-3 bg-neutral-100 flex justify-between border-b border-r border-black text-sm cursor-pointer`}
                 product={product}
+                selectedSize={selectedSize}
               >
                 <>
                   <span className="mr-3">Add to bag</span>
@@ -79,15 +73,26 @@ export default function ProductDetail({ product }: { product: Product }) {
             src={images[0]}
             className="absolute xl:static xl:w-1/2 bottom-3 left-4 w-1/3 z-20"
           />
-          <Image alt={name} src={images[1]} className="xl:w-1/2 xl:pl-3" />
+          <Image
+            alt={name}
+            src={images[1]}
+            className="xl:w-1/2 xl:pl-3"
+            priority
+          />
         </div>
       </div>
-      <MobileLayout product={product} />
+      <MobileLayout product={product} selectedSize={selectedSize} />
     </>
   );
 }
 
-function MobileLayout({ product }: { product: Product }) {
+function MobileLayout({
+  product,
+  selectedSize,
+}: {
+  product: Product;
+  selectedSize?: Size;
+}) {
   const {
     name,
     overview,
@@ -95,8 +100,8 @@ function MobileLayout({ product }: { product: Product }) {
     regularPrice,
     salePrice,
     images,
-    description,
     tagline,
+    description,
   } = product;
   return (
     <div className="md:hidden mt-10 mb-8">
@@ -107,7 +112,7 @@ function MobileLayout({ product }: { product: Product }) {
           src={images[0]}
           className="absolute bottom-3 left-4 w-1/4 z-20"
         />
-        <Image alt={name} src={images[1]} className="mb-3" />
+        <Image alt={name} src={images[1]} className="mb-3" priority />
       </div>
       <div className="">
         <h2 className="text-2xl font-semibold mb-2">{name}</h2>
@@ -125,33 +130,38 @@ function MobileLayout({ product }: { product: Product }) {
                     : `first:w-24 sm:first:w-20 w-28 sm:w-24 last:w-32 sm:last:w-28`
                 } relative first:border border-black py-2 text-center bg-neutral-100 italic cursor-pointer`}
               >
-                {size}
+                {size.size}
               </li>
             ))}
           </ul>
         )}
-        {salePrice && (
-          <div className="text-sm mt-4 mb-6 bg-neutral-100 w-fit px-4 py-2 font-light tracking-wide">
-            Save ${regularPrice - salePrice} with this set
-          </div>
-        )}
-        <AddToCartButton
-          classname="mt-8 mb-6 w-full py-2 px-5 bg-neutral-100 flex justify-between border-b border-r border-black text-sm"
-          product={product}
-        >
-          <>
-            <span className="mr-3">Add to bag</span>
-            <div>
-              {salePrice && <span className="mr-2">${salePrice} CAD</span>}
-              <span className={`${salePrice && `line-through opacity-55`}`}>
-                ${regularPrice} CAD
-              </span>
+        <div className="flex flex-col">
+          {salePrice && (
+            <div className="text-sm mt-4 mb-6 bg-neutral-100 w-fit px-4 py-2 font-light tracking-wide">
+              Save ${regularPrice - salePrice} with this set
             </div>
-          </>
-        </AddToCartButton>
-        <div className="text-sm">
-          <p className="mb-3 font-medium">{tagline}</p>
-          <p>{description}</p>
+          )}
+          <AddToCartButton
+            classname={`${
+              salePrice && `order-last`
+            } mt-8 mb-6 w-full py-2 px-5 bg-neutral-100 flex justify-between border-b border-r border-black text-sm`}
+            product={product}
+            selectedSize={selectedSize}
+          >
+            <>
+              <span className="mr-3">Add to bag</span>
+              <div>
+                {salePrice && <span className="mr-2">${salePrice} CAD</span>}
+                <span className={`${salePrice && `line-through opacity-55`}`}>
+                  ${regularPrice} CAD
+                </span>
+              </div>
+            </>
+          </AddToCartButton>
+          <div className="text-sm">
+            <p className="mb-3 font-medium">{tagline}</p>
+            <p>{description}</p>
+          </div>
         </div>
       </div>
     </div>

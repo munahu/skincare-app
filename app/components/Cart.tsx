@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useContext } from "react";
 import Image from "next/image";
 import { CartItem as CartItemType } from "../types/product";
 import { CartItemsContext } from "./Layout";
+import Link from "next/link";
 
 export default function Cart({
   setIsCartOpen,
@@ -63,9 +64,12 @@ export default function Cart({
       />
       <div className="fixed overflow-y-scroll inset-y-0 right-0 h-full bg-white z-50 pt-2 w-full md:max-w-[540px]">
         <div className="flex justify-between items-center border-b border-neutral-100 pb-2">
-          <span className="font-semibold italic text-lg capitalize pl-4">
-            Skincare
-          </span>
+          <Link
+            href="/"
+            className="font-semibold italic text-lg capitalize pl-4"
+          >
+            <span>Skincare</span>
+          </Link>
           <div className="flex items-center uppercase text-xs">
             <CartCount />
             <svg
@@ -135,14 +139,26 @@ function CartItem({
   handleIncreaseQuantityClick: (productId: string) => void;
   handleDecreaseQuantityClick: (productId: string) => void;
 }) {
-  const { id, name, images, regularPrice, salePrice, quantity } = cartItem;
+  const {
+    id,
+    name,
+    images,
+    regularPrice,
+    salePrice,
+    quantity,
+    selectedSize,
+    overview,
+  } = cartItem;
   return (
     <li className="border-t last:border-b border-black w-full flex py-4 px-4">
       <Image alt={name} src={images[0]} className="max-w-20 mr-2 sm:mr-3" />
       <div className="flex flex-col w-full">
         <div className="flex justify-between h-full">
-          <div className="flex mr-4">
+          <div className="flex flex-col mr-4">
             <span>{name}</span>
+            <span className="mt-3 opacity-55 text-xs">
+              {selectedSize?.size ?? overview}
+            </span>
           </div>
           <div className="flex">
             <span className={`mr-1 ${salePrice && `line-through opacity-55`}`}>
@@ -206,7 +222,7 @@ export function CartCount() {
 
 function Price({ price, isSavings }: { price: number; isSavings?: boolean }) {
   return (
-    <span>
+    <span className="font-light">
       {isSavings && <span>-</span>}${price.toFixed(2)} CAD
     </span>
   );

@@ -7,9 +7,14 @@ export type Tag =
   | "moisturizers"
   | "sets";
 
+export interface Size {
+  size: string;
+  price: number;
+}
+
 export interface Product {
   id: string;
-  sizes?: string[];
+  sizes?: Size[];
   tags: Tag[];
   name: string;
   regularPrice: number;
@@ -22,4 +27,5 @@ export interface Product {
 
 export interface CartItem extends Product {
   quantity: number;
+  selectedSize?: Size;
 }

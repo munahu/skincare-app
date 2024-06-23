@@ -68,7 +68,11 @@ export const products: Product[] = [
   },
   {
     id: "43781981995253",
-    sizes: ["60 mL", "177 mL", "300 mL"],
+    sizes: [
+      { size: "60 mL", price: 16 },
+      { size: "177 mL", price: 30 },
+      { size: "300 mL", price: 41 },
+    ],
     tags: ["cleansers"],
     name: "Milky Jelly Cleanser",
     regularPrice: 30,
@@ -80,7 +84,10 @@ export const products: Product[] = [
   },
   {
     id: "43781981995254",
-    sizes: ["50 mL", "125 mL"],
+    sizes: [
+      { size: "50 mL", price: 44 },
+      { size: "125 mL", price: 76 },
+    ],
     tags: ["moisturizers"],
     name: "After Baume",
     regularPrice: 44,

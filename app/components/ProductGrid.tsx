@@ -5,6 +5,8 @@ import { Product, Tag } from "@/app/types/product";
 import Image from "next/image";
 import Link from "next/link";
 import AddToCartButton from "./AddToCartButton";
+import ProductSizes from "./ProductSizes";
+import { useState } from "react";
 
 interface Props {
   tag?: Tag;
@@ -43,6 +45,8 @@ export function ProductCard({
   const { id, name, regularPrice, salePrice, overview, images, sizes } =
     product;
 
+  const [selectedSize, setSelectedSize] = useState(sizes?.[0]);
+
   return (
     <li className="relative text-xs sm:text-sm">
       {images && (
@@ -53,33 +57,24 @@ export function ProductCard({
       <a href="">{name}</a>
       <p className="mt-1 mb-2 opacity-65">{overview}</p>
       <div className="flex">
-        <p className="mr-2">${regularPrice}</p>
+        <p className="mr-2">${selectedSize?.price ?? regularPrice}</p>
         {salePrice && <p className="line-through opacity-55">${salePrice}</p>}
       </div>
       {isInProductGrid && (
         <>
-          {sizes && (
-            <ul className="flex flex-wrap max-w-56 mt-4 -mb-5">
-              {sizes.map((size, index) => (
-                <li
-                  key={index}
-                  className={`${
-                    sizes.length === 1
-                      ? `w-24 sm:w-20`
-                      : sizes.length === 2
-                      ? `first:w-24 sm:first:w-20 last:w-28 sm:last:w-24`
-                      : `first:w-24 sm:first:w-20 w-28 sm:w-24 last:w-32 sm:last:w-28`
-                  } relative first:border border-black py-3 text-center bg-neutral-100 italic cursor-pointer`}
-                >
-                  {size}
-                </li>
-              ))}
-            </ul>
+          {sizes && selectedSize && setSelectedSize && (
+            <ProductSizes
+              sizes={sizes}
+              selectedSize={selectedSize}
+              setSelectedSize={setSelectedSize}
+              isInProductGrid
+            />
           )}
           <div className="mt-16">
             <AddToCartButton
               classname="absolute bottom-0 border-r border-b border-black w-full h-9 cursor-pointer"
               product={product}
+              selectedSize={selectedSize}
             >
               <>Add to bag</>
             </AddToCartButton>
