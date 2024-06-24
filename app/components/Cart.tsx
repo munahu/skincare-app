@@ -3,12 +3,14 @@ import Image from "next/image";
 import { CartItem as CartItemType } from "../types/product";
 import { CartItemsContext } from "./Layout";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Cart({
   setIsCartOpen,
 }: {
   setIsCartOpen: Dispatch<SetStateAction<boolean>>;
 }) {
+  const pathname = usePathname();
   const { cartItems, updateCartItems } = useContext(CartItemsContext) || {};
 
   const handleRemoveClick = (itemId: string) => {
@@ -65,6 +67,7 @@ export default function Cart({
       <div className="fixed overflow-y-scroll inset-y-0 right-0 h-full bg-white z-50 pt-2 w-full md:max-w-[540px]">
         <div className="flex justify-between items-center border-b border-neutral-100 pb-2">
           <Link
+            onClick={() => pathname === "/" && setIsCartOpen(false)}
             href="/"
             className="font-semibold italic text-lg capitalize pl-4"
           >

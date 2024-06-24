@@ -28,9 +28,10 @@ export default function Nav() {
   const { isCartOpen, setIsCartOpen } = useContext(CartDisplayContext) || {};
 
   return (
-    <nav className="fixed inset-x-0 z-40 bg-white">
+    <nav className={`${isMenuOpen && `h-full`} fixed inset-x-0 z-40 bg-white`}>
       <ul className="flex justify-end lg:justify-center items-center h-10 pl-4 border-b border-neutral-200 tracking-tight text-xs uppercase relative">
         <Link
+          onClick={() => pathname === "/" && setIsMenuOpen(false)}
           href="/"
           className="absolute left-5 font-semibold italic text-lg capitalize cursor-pointer"
         >
@@ -133,11 +134,13 @@ function Menu({
 
     if (menuRefCurrent) {
       menuRefCurrent.addEventListener("mouseleave", handleMouseLeave);
+      window.addEventListener("resize", handleMouseLeave);
     }
 
     return () => {
       if (menuRefCurrent) {
         menuRefCurrent.removeEventListener("mouseleave", handleMouseLeave);
+        window.removeEventListener("resize", handleMouseLeave);
       }
     };
   }, [setIsMenuOpen]);
@@ -145,15 +148,15 @@ function Menu({
   return (
     <ul
       ref={menuRef}
-      className="pt-3 block lg:hidden text-sm pl-8 border-b border-neutral-200"
+      className="h-full pt-6 block lg:hidden pl-8 border-b border-neutral-200 bg-white"
     >
-      <li className="mb-3">
+      <li className="mb-8">
         <Link href="/" className="">
           All skincare
         </Link>
       </li>
       {tags.map((tag, index) => (
-        <li key={index} className="mb-3">
+        <li key={index} className="mb-8">
           <Link
             href={`/${tag}`}
             className={`${tag !== "sets" && `capitalize`}`}
