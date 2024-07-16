@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { products, tags } from "../products";
 import { usePathname } from "next/navigation";
@@ -15,6 +13,7 @@ import {
 import { ProductCard } from "./ProductGrid";
 import { CartDisplayContext } from "./Layout";
 import Cart, { CartCount } from "./Cart";
+import { useSession } from "next-auth/react";
 
 export default function Nav() {
   const pathname = usePathname();
@@ -26,6 +25,7 @@ export default function Nav() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const { isCartOpen, setIsCartOpen } = useContext(CartDisplayContext) || {};
+  const { status } = useSession();
 
   return (
     <nav className={`${isMenuOpen && `h-full`} fixed inset-x-0 z-40 bg-white`}>
@@ -33,7 +33,7 @@ export default function Nav() {
         <Link
           onClick={() => pathname === "/" && setIsMenuOpen(false)}
           href="/"
-          className="absolute left-5 font-semibold italic text-lg capitalize cursor-pointer"
+          className="absolute left-2.5 font-semibold italic text-lg capitalize cursor-pointer"
         >
           <span>Skincare</span>
         </Link>
@@ -87,6 +87,13 @@ export default function Nav() {
               >
                 Search
               </li>
+              <li className="hidden lg:block mr-4 cursor-pointer hover:underline">
+                {status === "authenticated" ? (
+                  <Link href="/account">Account</Link>
+                ) : (
+                  <Link href="/account/login">Log in</Link>
+                )}
+              </li>
               <li
                 onClick={() => setIsCartOpen?.(true)}
                 className="cursor-pointer hover:underline"
@@ -117,7 +124,7 @@ function Menu({
 }: {
   setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  const menuRef = useRef<HTMLUListElement | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const menuRefCurrent = menuRef.current;
@@ -146,26 +153,30 @@ function Menu({
   }, [setIsMenuOpen]);
 
   return (
-    <ul
-      ref={menuRef}
-      className="h-full pt-6 block lg:hidden pl-8 border-b border-neutral-200 bg-white"
-    >
-      <li className="mb-8">
-        <Link href="/" className="">
-          All skincare
-        </Link>
-      </li>
-      {tags.map((tag, index) => (
-        <li key={index} className="mb-8">
-          <Link
-            href={`/${tag}`}
-            className={`${tag !== "sets" && `capitalize`}`}
-          >
-            {tag === "sets" ? "Save with sets" : tag}
+    <div ref={menuRef} className="h-full block lg:hidden bg-white">
+      <ul className="pl-8 pt-6 border-b border-neutral-200">
+        <li className="mb-8 hover:underline">
+          <Link href="/" className="">
+            All skincare
           </Link>
         </li>
-      ))}
-    </ul>
+        {tags.map((tag, index) => (
+          <li key={index} className="mb-8 hover:underline">
+            <Link
+              href={`/${tag}`}
+              className={`${tag !== "sets" && `capitalize`}`}
+            >
+              {tag === "sets" ? "Save with sets" : tag}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <ul className="pl-8 pt-6">
+        <li className="mb-8 hover:underline capitalize">
+          <Link href="/account/login">Log in</Link>
+        </li>
+      </ul>
+    </div>
   );
 }
 
