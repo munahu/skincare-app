@@ -14,6 +14,7 @@ import { ProductCard } from "./ProductGrid";
 import { CartDisplayContext } from "./Layout";
 import Cart, { CartCount } from "./Cart";
 import { useSession } from "next-auth/react";
+import Logo from "./Logo";
 
 export default function Nav() {
   const pathname = usePathname();
@@ -30,13 +31,10 @@ export default function Nav() {
   return (
     <nav className={`${isMenuOpen && `h-full`} fixed inset-x-0 z-40 bg-white`}>
       <ul className="flex justify-end lg:justify-center items-center h-10 pl-4 border-b border-neutral-200 tracking-tight text-xs uppercase relative">
-        <Link
+        <Logo
           onClick={() => pathname === "/" && setIsMenuOpen(false)}
-          href="/"
-          className="absolute left-2.5 font-semibold italic text-lg capitalize cursor-pointer"
-        >
-          <span>Skincare</span>
-        </Link>
+          className="text-lg absolute left-2.5"
+        />
         <ul className="hidden lg:flex justify-center items-center">
           <li>
             <Link href="/" className={`mr-5 ${isNoTagSelected && `underline`}`}>

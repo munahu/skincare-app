@@ -18,7 +18,7 @@ export function Button({
         }
       }}
       className={`bg-neutral-100 text-sm px-4 py-2 border-b border-r border-black ${
-        className && className
+        className ?? ""
       }`}
     >
       {text}

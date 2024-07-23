@@ -30,6 +30,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   sessions      Session[]
+  order         Order[]
  
   @@map("users")
 }
@@ -41,4 +42,36 @@ model VerificationToken {
  
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+model Order {
+  id              String     @id @default(cuid())
+  orderDate       DateTime   @default(now())
+  orderedProducts OrderedProduct[]
+  productCount  Int
+  totalCost     Int
+  totalSavings  Int?
+  userId        String?   @map("user_id")
+  user          User?     @relation(fields: [userId], references: [id])
+  guestName     String?
+  guestEmail    String?
+  addressLine1  String
+  addressLine2  String?
+  city          String
+  province      String
+  postalCode    String
+
+  @@map("orders")
+}
+
+model OrderedProduct {
+  id            String    @id
+  name          String
+  regularPrice  Int
+  salePrice     Int?
+  image         String
+  quantity      Int
+  order         Order[]
+  selectedSize  String?
+  @@map("products")
 }

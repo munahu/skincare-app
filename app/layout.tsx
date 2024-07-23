@@ -19,7 +19,7 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} has-[.cart]:overflow-hidden`}>
         <SessionProvider session={session}>{children}</SessionProvider>
       </body>
     </html>

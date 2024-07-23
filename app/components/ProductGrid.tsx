@@ -20,7 +20,7 @@ export default function ProductGrid({ tag }: Props) {
   return (
     <>
       <div className="pt-8">
-        <ul className="mb-5 px-2 text-sm flex justify-between opacity-55">
+        <ul className="mb-5 text-sm flex justify-between opacity-55">
           <li>
             <span>{productsToDisplay.length} items</span>
           </li>
