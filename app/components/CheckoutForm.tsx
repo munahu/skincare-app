@@ -31,15 +31,20 @@ export default function CheckoutForm({ user }: { user?: User }) {
       cartCount,
       totalCost,
       totalSavings,
-    }
+    },
+    String(storedCheckoutId)
   );
 
-  const createGuestOrderWithCartInfo = createGuestOrder.bind(null, {
-    cartItems,
-    cartCount,
-    totalCost,
-    totalSavings,
-  });
+  const createGuestOrderWithCartInfo = createGuestOrder.bind(
+    null,
+    {
+      cartItems,
+      cartCount,
+      totalCost,
+      totalSavings,
+    },
+    String(storedCheckoutId)
+  );
 
   if (params.id === storedCheckoutId) {
     return (
@@ -131,12 +136,20 @@ export default function CheckoutForm({ user }: { user?: User }) {
             </>
           </FormSection>
         </div>
-        <OrderSummary
-          cartCount={cartCount}
-          cartItems={cartItems}
-          totalCost={totalCost}
-          totalSavings={totalSavings}
-        />
+        <FormSection className="lg:w-[45%] lg:pt-0 lg:mt-14 lg:pl-8 lg:pr-10 xl:pr-40 lg:bg-neutral-100">
+          <OrderSummary
+            productList={cartItems.map((item) => ({
+              ...item,
+              image: JSON.stringify(item.images[0]),
+              salePrice: item.salePrice ?? null,
+              selectedSize: item.selectedSize?.size ?? null,
+            }))}
+            productListCount={cartCount}
+            totalCost={totalCost}
+            totalSavings={totalSavings}
+            orderStatus="pending"
+          />
+        </FormSection>
       </form>
     );
   } else {

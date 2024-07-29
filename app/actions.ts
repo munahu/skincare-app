@@ -1,6 +1,7 @@
 "use server";
 
-import { OrderedProduct, Prisma } from "@prisma/client";
+import { OrderedProduct } from "@prisma/client";
+import { redirect } from "next/navigation";
 import { CartContextInfo } from "./components/Layout";
 import prisma from "./lib/client";
 
@@ -20,6 +21,7 @@ export const updateUser = async (userId: string, formData: FormData) => {
 
 export const createGuestOrder = async (
   cartInfo: CartContextInfo,
+  checkoutId: string,
   formData: FormData
 ) => {
   const firstName = formData.get("firstName");
@@ -45,6 +47,7 @@ export const createGuestOrder = async (
 
   await prisma.order.create({
     data: {
+      id: checkoutId,
       guestName: `${firstName} ${lastName}`,
       guestEmail: email,
       addressLine1,
@@ -73,11 +76,13 @@ export const createGuestOrder = async (
       },
     },
   });
+  redirect(`/checkouts/${checkoutId}`);
 };
 
 export const createUserOrder = async (
   userId: string,
   cartInfo: CartContextInfo,
+  checkoutId: string,
   formData: FormData
 ) => {
   const addressLine1 = String(formData.get("addressLine1"));
@@ -100,6 +105,7 @@ export const createUserOrder = async (
 
   await prisma.order.create({
     data: {
+      id: checkoutId,
       userId,
       addressLine1,
       addressLine2,
@@ -127,4 +133,15 @@ export const createUserOrder = async (
       },
     },
   });
+  redirect(`/checkouts/${checkoutId}`);
 };
+
+export const getOrderById = async (orderId: string) =>
+  await prisma.order.findUnique({
+    where: {
+      id: orderId,
+    },
+    include: {
+      orderedProducts: true,
+    },
+  });
