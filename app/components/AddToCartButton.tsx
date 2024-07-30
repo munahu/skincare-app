@@ -26,7 +26,7 @@ export default function AddToCartButton({
       if (productWithSelectedSize) {
         productWithSelectedSize.quantity += 1;
       } else {
-        cartItems.push({
+        cartItems.unshift({
           ...product,
           selectedSize,
           id: `${product.id}${selectedSize?.size}`,
@@ -49,7 +49,7 @@ export default function AddToCartButton({
           (item) => item.id === product.id
         );
         if (duplicateProductIndex === -1) {
-          updateCartItems?.([...cartItems, { ...product, quantity: 1 }]);
+          updateCartItems?.([{ ...product, quantity: 1 }, ...cartItems]);
         } else {
           cartItems[duplicateProductIndex].quantity += 1;
           updateCartItems?.(cartItems);
