@@ -102,7 +102,7 @@ export default function Nav() {
           )}
         </ul>
       </ul>
-      {isMenuOpen && <Menu setIsMenuOpen={setIsMenuOpen} />}
+      {isMenuOpen && <Menu setIsMenuOpen={setIsMenuOpen} status={status} />}
       {isSearchOpen && (
         <>
           <Search setIsSearchOpen={setIsSearchOpen} />
@@ -119,8 +119,10 @@ export default function Nav() {
 
 function Menu({
   setIsMenuOpen,
+  status,
 }: {
   setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
+  status: "authenticated" | "loading" | "unauthenticated";
 }) {
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -171,7 +173,11 @@ function Menu({
       </ul>
       <ul className="pl-8 pt-6">
         <li className="mb-8 hover:underline capitalize">
-          <Link href="/account/login">Log in</Link>
+          {status === "authenticated" ? (
+            <Link href="/account">Account</Link>
+          ) : (
+            <Link href="/account/login">Log in</Link>
+          )}
         </li>
       </ul>
     </div>
